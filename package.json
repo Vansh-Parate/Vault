@@ -1,0 +1,16 @@
+{
+  "name": "vault",
+  "version": "1.0.0",
+  "description": "Personal Data Wallet — store, view, and manage all your credentials",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "install:all": "npm install && cd client && npm install && cd ../server && npm install",
+    "db:generate": "cd server && npx prisma generate",
+    "db:migrate": "cd server && npx prisma migrate dev",
+    "db:seed": "cd server && npx prisma db seed"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String       @id @default(cuid())
+  name        String
+  email       String       @unique
+  avatarUrl   String?
+  dateFormat  String       @default("DD MMM YYYY")
+  defaultVis  Visibility   @default(PRIVATE)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  credentials Credential[]
+  accessLogs  AccessLog[]
+}
+
+model Credential {
+  id           String             @id @default(cuid())
+  userId       String
+  category     CredentialCategory
+  title        String
+  issuer       String?
+  issuedDate   DateTime?
+  expiryDate   DateTime?
+  status       VerificationStatus @default(PENDING)
+  visibility   Visibility         @default(PRIVATE)
+  metadata     Json?
+  documentUrl  String?
+  documentName String?
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessLogs  AccessLog[]
+  shareLinks  ShareLink[]
+}
+
+model ShareLink {
+  id           String      @id @default(cuid())
+  credentialId String
+  token        String      @unique @default(cuid())
+  expiresAt    DateTime?
+  createdAt    DateTime    @default(now())
+  views        Int         @default(0)
+
+  credential   Credential  @relation(fields: [credentialId], references: [id], onDelete: Cascade)
+}
+
+model AccessLog {
+  id           String     @id @default(cuid())
+  userId       String
+  credentialId String
+  accessedBy   String     @default("Self")
+  action       String
+  timestamp    DateTime   @default(now())
+
+  user         User       @relation(fields: [userId], references: [id])
+  credential   Credential @relation(fields: [credentialId], references: [id])
+}
+
+enum CredentialCategory {
+  IDENTITY
+  EDUCATION
+  EMPLOYMENT
+  FINANCIAL
+  HEALTHCARE
+  SKILLS
+  GOVERNMENT
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+  EXPIRED
+}
+
+enum Visibility {
+  PRIVATE
+  SHAREABLE
+  PUBLIC
+}

@@ -1,0 +1,15 @@
+﻿src/components/credentials/CredentialCard.tsx(4,10): error TS1484: 'Credential' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/components/credentials/CredentialGrid.tsx(1,10): error TS1484: 'Credential' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/components/forms/FieldRenderer.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/components/forms/FieldRenderer.tsx(2,10): error TS1484: 'CategoryField' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/components/layout/Sidebar.tsx(8,3): error TS6133: 'LogOut' is declared but its value is never read.
+src/components/ui/Badge.tsx(1,10): error TS1484: 'VerificationStatus' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/components/ui/Toast.tsx(2,10): error TS1484: 'Toast' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/hooks/useCredentials.ts(3,10): error TS1484: 'Credential' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/hooks/useCredentials.ts(3,22): error TS1484: 'DashboardStats' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/lib/constants.ts(1,10): error TS1484: 'CategoryField' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/pages/AccessLog.tsx(7,10): error TS1484: 'AccessLog' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/pages/CredentialView.tsx(2,50): error TS6133: 'ExternalLink' is declared but its value is never read.
+src/pages/Profile.tsx(8,10): error TS1484: 'User' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/pages/ShareView.tsx(8,10): error TS1484: 'Credential' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/pages/Wallet.tsx(12,10): error TS1484: 'Credential' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.

@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sage: #4F7F73;
+  --color-sage-hover: #3D6860;
+  --color-sage-light: #EAF0EE;
+  --color-beige: #C9C6B1;
+  --color-cream: #E7E2D3;
+  --color-cream-card: #F2EFE6;
+  --color-cream-input: #EDE9DF;
+  --color-dark: #2E4A44;
+  --color-dark-mid: #3D5C55;
+  --color-dark-muted: #7A938E;
+  --color-white: #FDFCF9;
+  --color-danger: #8B3A2F;
+  --color-danger-light: #F5EAE8;
+  --color-warning: #7A6020;
+  --color-warning-light: #F5F0E0;
+  --color-success: #4F7F73;
+  --color-success-light: #EAF0EE;
+
+  --font-display: 'Playfair Display', serif;
+  --font-sans: 'Instrument Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --radius-card: 14px;
+  --radius-input: 8px;
+  --radius-badge: 999px;
+}
+
+/* Base styles removed to respect tailwind layers */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-cream);
+  color: var(--color-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--color-dark);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-beige);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-dark-muted);
+}
+
+/* Skeleton animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Toast animation */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.toast-enter {
+  animation: slideInRight 0.3s ease-out;
+}
+
+.toast-exit {
+  animation: slideOutRight 0.3s ease-in forwards;
+}
+
+/* Category scroll */
+.category-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.category-tabs {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
