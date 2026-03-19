@@ -12,6 +12,7 @@ import { useCredential } from '../hooks/useCredentials';
 import { useModal } from '../hooks/useModal';
 import { CATEGORY_ICONS, CATEGORY_LABELS, CATEGORY_FIELDS } from '../lib/constants';
 import { formatDate } from '../lib/utils';
+import DigiLockerBadge from '../components/digilocker/DigiLockerBadge';
 
 const pageVariants = {
   initial: { opacity: 0, y: 12 },
@@ -61,6 +62,23 @@ export default function CredentialView() {
   const fields = CATEGORY_FIELDS[credential.category] || [];
   const metadata = (credential.metadata || {}) as Record<string, any>;
 
+  const aadhaarMasked =
+    credential.category === 'IDENTITY' &&
+    credential.title.toLowerCase().includes('aadhaar')
+      ? (() => {
+          const last4 =
+            (metadata.aadhaarLast4 as string | undefined) ||
+            (metadata.aadhaar_last4 as string | undefined) ||
+            (metadata.aadhaar as string | undefined) ||
+            (metadata.idNumber as string | undefined);
+          if (!last4) return null;
+          const digits = last4.replace(/\D/g, '');
+          if (!digits) return null;
+          const four = digits.slice(-4);
+          return `XXXX-XXXX-${four}`;
+        })()
+      : null;
+
   return (
     <motion.div
       variants={pageVariants}
@@ -88,6 +106,7 @@ export default function CredentialView() {
               {CATEGORY_LABELS[credential.category]}
             </span>
             <Badge status={credential.status} />
+            {credential.source === 'DIGILOCKER' && <DigiLockerBadge />}
           </div>
 
           {/* Title */}
@@ -106,6 +125,16 @@ export default function CredentialView() {
 
           {/* Metadata */}
           <div className="space-y-0">
+            {/* Explicit document number row for Aadhaar */}
+            {aadhaarMasked && (
+                <div className="flex justify-between py-3 border-b border-beige">
+                  <span className="text-[13px] text-dark-muted font-sans">Document Number</span>
+                  <span className="text-sm text-dark font-sans text-right max-w-[60%]">
+                  {aadhaarMasked}
+                  </span>
+                </div>
+              )}
+
             {fields
               .filter((f) => f.type !== 'file' && metadata[f.name])
               .map((field) => (
@@ -122,7 +151,16 @@ export default function CredentialView() {
           </div>
 
           {/* Credential hash */}
-          <div className="mt-4 pt-4 border-t border-beige">
+          <div className="mt-4 pt-4 border-t border-beige space-y-3">
+            {credential.source === 'DIGILOCKER' && (
+              <div>
+                <p className="text-[13px] text-dark-muted font-sans mb-1">Source</p>
+                <div className="flex items-center gap-2">
+                  <DigiLockerBadge />
+                  <span className="text-xs text-dark-muted font-sans">Imported from DigiLocker</span>
+                </div>
+              </div>
+            )}
             <p className="text-[11px] text-dark-muted font-mono">
               ID: {credential.id}
             </p>

@@ -10,6 +10,7 @@ import shareRouter from './routes/share';
 import uploadRouter from './routes/upload';
 import logsRouter from './routes/logs';
 import profileRouter from './routes/profile';
+import digilockerRouter from './routes/digilocker';
 import { errorHandler } from './middleware/errorHandler';
 
 dotenv.config();
@@ -33,6 +34,7 @@ app.use('/api/share', shareRouter); // Public share access
 app.use('/api/upload', uploadRouter);
 app.use('/api/logs', logsRouter);
 app.use('/api/profile', profileRouter);
+app.use('/api/digilocker', digilockerRouter);
 
 // Error handler
 app.use(errorHandler);

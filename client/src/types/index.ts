@@ -9,6 +9,7 @@ export type CredentialCategory =
 
 export type VerificationStatus = 'PENDING' | 'VERIFIED' | 'REJECTED' | 'EXPIRED';
 export type Visibility = 'PRIVATE' | 'SHAREABLE' | 'PUBLIC';
+export type CredentialSource = 'MANUAL' | 'DIGILOCKER';
 
 export interface User {
   id: string;
@@ -31,6 +32,7 @@ export interface Credential {
   expiryDate?: string;
   status: VerificationStatus;
   visibility: Visibility;
+  source?: CredentialSource;
   metadata?: Record<string, any>;
   documentUrl?: string;
   documentName?: string;

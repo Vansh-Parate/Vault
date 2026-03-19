@@ -19,6 +19,7 @@ model User {
 
   credentials Credential[]
   accessLogs  AccessLog[]
+  digilockerSessions DigiLockerSession[]
 }
 
 model Credential {
@@ -31,6 +32,7 @@ model Credential {
   expiryDate   DateTime?
   status       VerificationStatus @default(PENDING)
   visibility   Visibility         @default(PRIVATE)
+  source       CredentialSource   @default(MANUAL)
   metadata     Json?
   documentUrl  String?
   documentName String?
@@ -40,6 +42,19 @@ model Credential {
   user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessLogs  AccessLog[]
   shareLinks  ShareLink[]
+}
+
+model DigiLockerSession {
+  id          String    @id @default(cuid())
+  userId      String
+  sessionId   String    @unique
+  status      String    @default("created")
+  docTypes    String[]
+  importedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ShareLink {
@@ -86,4 +101,9 @@ enum Visibility {
   PRIVATE
   SHAREABLE
   PUBLIC
+}
+
+enum CredentialSource {
+  MANUAL
+  DIGILOCKER
 }

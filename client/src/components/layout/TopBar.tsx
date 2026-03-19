@@ -8,14 +8,27 @@ interface TopBarProps {
 
 export default function TopBar({ title, subtitle, action }: TopBarProps) {
   return (
-    <div className="flex items-center justify-between mb-8">
-      <div>
-        <h1 className="font-display text-2xl text-dark">{title}</h1>
+    <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between mb-6 lg:mb-8">
+      <div className="min-w-0">
+        {title ? (
+          <h1 className="font-display text-2xl lg:text-[28px] leading-tight text-dark truncate">
+            {title}
+          </h1>
+        ) : (
+          <div className="h-9" />
+        )}
         {subtitle && (
-          <p className="text-sm text-dark-muted font-sans mt-1">{subtitle}</p>
+          <p className="text-sm text-dark-muted font-sans mt-1">
+            {subtitle}
+          </p>
         )}
       </div>
-      {action && <div>{action}</div>}
-    </div>
+
+      {action && (
+        <div className="shrink-0 flex items-center justify-start sm:justify-end">
+          {action}
+        </div>
+      )}
+    </header>
   );
 }

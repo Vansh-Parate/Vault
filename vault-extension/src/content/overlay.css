@@ -1,0 +1,234 @@
+/* ═══════════════════════════════════════════════
+   VAULT OVERLAY — Content Script Styles
+   Injected into Shadow DOM to prevent leakage
+   ═══════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+:host {
+  all: initial;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ── Floating Pill ── */
+
+.vault-pill {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #2E4A44;
+  color: #E7E2D3;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(46, 74, 68, 0.25);
+  animation: vault-slide-up 200ms ease-out;
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.vault-pill:hover {
+  background: #3D5C55;
+  transform: translateY(-1px);
+}
+
+.vault-pill__icon {
+  font-size: 16px;
+}
+
+@keyframes vault-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Expanded Panel ── */
+
+.vault-panel {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2147483647;
+  width: 320px;
+  background: #E7E2D3;
+  border: 1px solid #C9C6B1;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(46, 74, 68, 0.25);
+  animation: vault-slide-up 200ms ease-out;
+}
+
+.vault-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: #2E4A44;
+  border-bottom: 1px solid #3D5C55;
+}
+
+.vault-panel__header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vault-panel__icon {
+  color: #E7E2D3;
+  font-size: 16px;
+}
+
+.vault-panel__title {
+  color: #E7E2D3;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.vault-panel__close {
+  background: none;
+  border: none;
+  color: #7A938E;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  transition: color 150ms ease;
+}
+
+.vault-panel__close:hover {
+  color: #E7E2D3;
+}
+
+.vault-panel__body {
+  padding: 14px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.vault-panel__label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #7A938E;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 4px;
+}
+
+.vault-panel__fields {
+  font-size: 12px;
+  color: #2E4A44;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.vault-panel__loading {
+  font-size: 12px;
+  color: #7A938E;
+  text-align: center;
+  padding: 16px 0;
+}
+
+.vault-panel__list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.vault-panel__cred {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #F2EFE6;
+  border: 1px solid #C9C6B1;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: border-color 150ms ease;
+}
+
+.vault-panel__cred:hover {
+  border-color: #4F7F73;
+}
+
+.vault-panel__cred--selected {
+  border-color: #4F7F73;
+  background: #EAF0EE;
+}
+
+.vault-panel__cred-emoji {
+  font-size: 20px;
+}
+
+.vault-panel__cred-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vault-panel__cred-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2E4A44;
+}
+
+.vault-panel__cred-issuer {
+  font-size: 11px;
+  color: #7A938E;
+}
+
+.vault-panel__fill-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  background: #4F7F73;
+  color: #FDFCF9;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.vault-panel__fill-btn:hover {
+  background: #3D6860;
+}
+
+.vault-panel__fill-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.vault-panel__success {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  background: #EAF0EE;
+  color: #4F7F73;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}

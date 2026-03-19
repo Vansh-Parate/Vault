@@ -6,6 +6,7 @@ import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 import { CATEGORY_ICONS } from '../../lib/constants';
 import { formatDate } from '../../lib/utils';
+import DigiLockerBadge from '../digilocker/DigiLockerBadge';
 
 interface CredentialCardProps {
   credential: Credential;
@@ -17,6 +18,24 @@ export default function CredentialCard({ credential, onShare }: CredentialCardPr
   const iconName = CATEGORY_ICONS[credential.category] as keyof typeof Icons;
   const IconComponent = (Icons[iconName] as any) || Icons.FileText;
 
+  const metadata = (credential.metadata || {}) as Record<string, any>;
+  const aadhaarMasked =
+    credential.category === 'IDENTITY' &&
+    credential.title.toLowerCase().includes('aadhaar')
+      ? (() => {
+          const last4 =
+            (metadata.aadhaarLast4 as string | undefined) ||
+            (metadata.aadhaar_last4 as string | undefined) ||
+            (metadata.aadhaar as string | undefined) ||
+            (metadata.idNumber as string | undefined);
+          if (!last4) return null;
+          const digits = last4.replace(/\D/g, '');
+          if (!digits) return null;
+          const four = digits.slice(-4);
+          return `XXXX-XXXX-${four}`;
+        })()
+      : null;
+
   return (
     <div className="bg-cream-card border border-beige rounded-[14px] p-6 hover:border-sage/40 transition-colors">
       {/* Header */}
@@ -24,7 +43,10 @@ export default function CredentialCard({ credential, onShare }: CredentialCardPr
         <div className="w-10 h-10 rounded-[10px] bg-sage-light flex items-center justify-center">
           <IconComponent size={20} className="text-sage" />
         </div>
-        <Badge status={credential.status} />
+        <div className="flex flex-col items-end gap-2">
+          <Badge status={credential.status} />
+          {credential.source === 'DIGILOCKER' && <DigiLockerBadge />}
+        </div>
       </div>
 
       {/* Content */}
@@ -35,7 +57,9 @@ export default function CredentialCard({ credential, onShare }: CredentialCardPr
         <p className="text-[13px] text-dark-muted font-sans mb-0.5">{credential.issuer}</p>
       )}
       <p className="text-xs text-dark-muted font-sans">
-        Issued: {formatDate(credential.issuedDate)}
+        {aadhaarMasked
+          ? `Aadhaar: ${aadhaarMasked}`
+          : `Issued: ${formatDate(credential.issuedDate)}`}
       </p>
 
       {/* Actions */}

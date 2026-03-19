@@ -6,10 +6,10 @@ interface PageWrapperProps {
 
 export default function PageWrapper({ children }: PageWrapperProps) {
   return (
-    <div className="ml-[240px] min-h-screen bg-cream">
-      <div className="max-w-[1200px] mx-auto px-8 py-8">
+    <main className="ml-[72px] lg:ml-64 min-h-dvh bg-cream transition-[margin] duration-300 overflow-x-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-6 lg:py-8">
         {children}
       </div>
-    </div>
+    </main>
   );
 }

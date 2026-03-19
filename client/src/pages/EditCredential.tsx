@@ -24,6 +24,7 @@ export default function EditCredential() {
   const [issuer, setIssuer] = useState('');
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [saving, setSaving] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
     if (credential) {
@@ -40,12 +41,27 @@ export default function EditCredential() {
   const handleSave = async () => {
     try {
       setSaving(true);
+      let documentUrl: string | undefined;
+      let documentName: string | undefined;
+
+      if (file) {
+        const formDataUpload = new FormData();
+        formDataUpload.append('file', file);
+        const uploadRes = await api.post('/upload', formDataUpload, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        documentUrl = uploadRes.data.url;
+        documentName = uploadRes.data.name;
+      }
+
       await api.put(`/credentials/${id}`, {
         title,
         issuer,
         metadata: formData,
         issuedDate: formData.issuedDate || formData.startDate || formData.date,
         expiryDate: formData.expiryDate || formData.endDate,
+        documentUrl,
+        documentName,
       });
       navigate(`/wallet/${id}`);
     } catch (err) {
@@ -91,16 +107,17 @@ export default function EditCredential() {
           onChange={(e) => setIssuer(e.target.value)}
         />
 
-        {fields
-          .filter((f) => f.type !== 'file')
-          .map((field) => (
-            <FieldRenderer
-              key={field.name}
-              field={field}
-              value={formData[field.name]}
-              onChange={handleFieldChange}
-            />
-          ))}
+        {fields.map((field) => (
+          <FieldRenderer
+            key={field.name}
+            field={field}
+            value={formData[field.name]}
+            onChange={handleFieldChange}
+            file={field.type === 'file' ? file : undefined}
+            onFileSelect={field.type === 'file' ? setFile : undefined}
+            onFileClear={field.type === 'file' ? () => setFile(null) : undefined}
+          />
+        ))}
 
         <div className="pt-4">
           <Button onClick={handleSave} disabled={saving} fullWidth>

@@ -83,8 +83,18 @@ export default function DropZone({ label = 'Upload Document', onFileSelect, sele
       >
         <Upload size={24} className={isDragging ? 'text-sage' : 'text-dark-muted'} />
         <p className="text-sm text-dark-muted mt-2 font-sans">
-          Drag & drop or <span className="text-sage font-medium">browse</span>
+          Drag & drop, or <span className="text-sage font-medium">upload from your device</span>
         </p>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleClick();
+          }}
+          className="mt-2 text-xs font-sans font-medium text-sage hover:underline cursor-pointer"
+        >
+          Choose file
+        </button>
         <p className="text-xs text-dark-muted mt-1">PDF, JPG, PNG — max 10MB</p>
         <input
           ref={fileInputRef}

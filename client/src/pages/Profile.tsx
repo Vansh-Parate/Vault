@@ -7,6 +7,7 @@ import Select from '../components/ui/Select';
 import api from '../lib/api';
 import type { User } from '../types';
 import { getInitials } from '../lib/utils';
+import ConnectCard from '../components/digilocker/ConnectCard';
 
 const pageVariants = {
   initial: { opacity: 0, y: 12 },
@@ -69,6 +70,12 @@ export default function Profile() {
       <TopBar title="Profile & Settings" />
 
       <div className="max-w-xl space-y-6">
+        {/* Connected Sources */}
+        <div>
+          <h3 className="font-display text-lg text-dark mb-3">Connected Sources</h3>
+          <ConnectCard />
+        </div>
+
         {/* Personal Info */}
         <div className="bg-cream-card border border-beige rounded-[14px] p-6">
           <h3 className="font-display text-lg text-dark mb-4">Personal Info</h3>

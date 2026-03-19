@@ -10,6 +10,7 @@ import { StatSkeleton } from '../components/ui/Skeleton';
 import Skeleton from '../components/ui/Skeleton';
 import { useDashboardStats } from '../hooks/useCredentials';
 import { getGreeting, formatDateTime } from '../lib/utils';
+import ConnectCard from '../components/digilocker/ConnectCard';
 
 const pageVariants = {
   initial: { opacity: 0, y: 12 },
@@ -32,7 +33,11 @@ export default function Dashboard() {
     >
       <TopBar
         title={`${getGreeting()}, Arjun`}
-        subtitle={today}
+        action={
+          <div className="text-left sm:text-right">
+            <p className="text-sm text-dark-muted font-sans">{today}</p>
+          </div>
+        }
       />
 
       {/* Stats Row */}
@@ -49,13 +54,19 @@ export default function Dashboard() {
         )}
       </div>
 
+      {/* Connected Sources */}
+      <div className="mb-8">
+        <h2 className="font-display text-lg text-dark mb-4">Connected Sources</h2>
+        <ConnectCard />
+      </div>
+
       {/* Category Overview */}
       <div className="mb-8">
         <h2 className="font-display text-lg text-dark mb-4">Categories</h2>
         {loading ? (
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {[1, 2, 3, 4, 5, 6, 7].map((i) => (
-              <div key={i} className="bg-cream-card border border-beige rounded-[14px] p-5">
+              <div key={i} className="bg-cream-card border border-beige rounded-card p-5">
                 <Skeleton className="h-6 w-6 mb-3" />
                 <Skeleton className="h-4 w-20 mb-1" />
                 <Skeleton className="h-3 w-16" />
@@ -78,7 +89,7 @@ export default function Dashboard() {
       {/* Recent Activity */}
       <div className="mb-8">
         <h2 className="font-display text-lg text-dark mb-4">Recent Activity</h2>
-        <div className="bg-cream-card border border-beige rounded-[14px] overflow-hidden">
+        <div className="bg-cream-card border border-beige rounded-card overflow-hidden">
           {loading ? (
             <div className="p-4 space-y-3">
               {[1, 2, 3, 4, 5].map((i) => (
@@ -105,10 +116,10 @@ export default function Dashboard() {
                   <span className="text-sm text-dark font-sans font-medium flex-1">
                     {log.credential?.title || 'Unknown'}
                   </span>
-                  <div className="flex-shrink-0 mx-4">
+                  <div className="shrink-0 mx-4">
                     <ActionBadge action={log.action} />
                   </div>
-                  <span className="text-xs text-dark-muted font-sans flex-shrink-0">
+                  <span className="text-xs text-dark-muted font-sans shrink-0">
                     {formatDateTime(log.timestamp)}
                   </span>
                 </div>
@@ -121,7 +132,7 @@ export default function Dashboard() {
       {/* Quick Add */}
       <button
         onClick={() => navigate('/wallet/add')}
-        className="w-full bg-cream-card border border-beige rounded-[14px] p-6 flex items-center gap-4 hover:border-sage transition-colors cursor-pointer text-left"
+        className="w-full bg-cream-card border border-beige rounded-card p-6 flex items-center gap-4 hover:border-sage transition-colors cursor-pointer text-left"
       >
         <div className="w-12 h-12 rounded-full bg-sage-light flex items-center justify-center">
           <Plus size={24} className="text-sage" />

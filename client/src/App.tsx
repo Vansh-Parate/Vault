@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Sidebar from './components/layout/Sidebar';
 import PageWrapper from './components/layout/PageWrapper';
@@ -11,17 +11,19 @@ import EditCredential from './pages/EditCredential';
 import AccessLog from './pages/AccessLog';
 import Profile from './pages/Profile';
 import ShareView from './pages/ShareView';
+import DigiLockerCallback from './pages/DigiLockerCallback';
 import { useToast } from './hooks/useToast';
 
 function AppLayout() {
   const { toasts, removeToast } = useToast();
+  const location = useLocation();
 
   return (
     <>
       <Sidebar />
       <PageWrapper>
         <AnimatePresence mode="wait">
-          <Routes>
+          <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/wallet" element={<Wallet />} />
@@ -30,6 +32,7 @@ function AppLayout() {
             <Route path="/wallet/:id/edit" element={<EditCredential />} />
             <Route path="/access-log" element={<AccessLog />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/digilocker/callback" element={<DigiLockerCallback />} />
           </Routes>
         </AnimatePresence>
       </PageWrapper>
